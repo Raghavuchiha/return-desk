@@ -18,16 +18,21 @@ const fields = [
   { name: "quantity", label: "Quantity", type: "number", min: 1, step: 1 },
 ];
 
-const inputClass = "mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2";
+const inputClass =
+  "mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2";
 
 export default function ReturnForm({
   initialValues = {},
   onSubmit,
   onCancel,
   submitLabel = "Create Return",
+  isSubmitting = false,
 }) {
   function handleSubmit(event) {
     event.preventDefault();
+
+    if (isSubmitting) return;
+
     const data = new FormData(event.currentTarget);
 
     onSubmit({
@@ -68,14 +73,21 @@ export default function ReturnForm({
           required
         >
           <option value="">Select a reason</option>
-          {reasons.map((reason) => <option key={reason}>{reason}</option>)}
+          {reasons.map((reason) => (
+            <option key={reason}>{reason}</option>
+          ))}
         </select>
       </label>
 
       <div className="flex flex-wrap items-center gap-4 sm:col-span-2">
-        <button className="rounded-md bg-blue-700 px-4 py-2 text-white">
-          {submitLabel}
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="rounded-md bg-blue-700 px-4 py-2 text-white disabled:opacity-50"
+        >
+          {isSubmitting ? "Saving…" : submitLabel}
         </button>
+
         {onCancel ? (
           <button type="button" onClick={onCancel} className="text-blue-800">
             Cancel

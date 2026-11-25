@@ -14,8 +14,8 @@ const nextConfig = {
 
     return [
       {
-        source: "/api/returns",
-        destination: `${backendUrl}/api/returns`,
+        source: "/api/returns/:path*",
+        destination: `${backendUrl}/api/returns/:path*`,
       },
     ];
   },
